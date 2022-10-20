@@ -1,0 +1,8 @@
+/home/danav/develop/mc_graph/graphs/unknown_uvar/ukn90_8.88889dv.txt
+/home/danav/develop/mc_graph/Results/may05/uk_uvar/ukn90_8.88889dv_r.txt
+0.05
+0
+1000
+50
+0
+0.05

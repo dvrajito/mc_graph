@@ -1,0 +1,58 @@
+mutation form
+3
+combined form
+1
+probability of mutation
+0.005000
+number of trials
+50
+inferior limit
+0.000000
+crossover form
+3
+random seed
+207
+superior limit
+10.000000
+mcg iterations
+500
+mcg method
+1
+coef error
+0.750000
+coef volume
+0.000000
+problem file
+/home/danav/develop/mc_graph/Problems/DrawGraph/sp200dv.txt
+diss form
+1
+crossover sites
+2
+swap probability
+0.450000
+coef angle
+0.250000
+reproduction form
+2
+epsilon
+0.050000
+number of reports
+10
+population size
+50
+generation number
+500
+history file
+/home/danav/develop/GAD/Results/diverse/hist.txt
+result file
+/home/danav/develop/mc_graph/Results/angle/sp200_a1.txt
+coef surface
+0.000000
+mcg epsilon
+0.050000
+probability of crossover
+0.900000
+individual size
+200
+history
+0

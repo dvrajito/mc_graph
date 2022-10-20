@@ -1,0 +1,9 @@
+9 nodes
+24 arcs
+AB 3.7 AC 3.6 AF 3.5 AG 3.3 AH 3.4 
+BC 2.8 BD 5.4 BE 6.7 BF 7.2 BI 2.5 
+CF 6.9 CG 7 CH 6.6 CI 5.0 
+DE 2.5 DH 7.0 DI 6.8 
+EF 3.0 EG 4.7 
+FG 2.3 FH 4.5 FI 6.7 
+GH 2.4 GI 5.3

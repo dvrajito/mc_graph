@@ -1,0 +1,77 @@
+
+CSPATH = ./src
+BINPATH = ./bin
+LIBPATH = ./lib
+
+# the source files 
+
+graph_sources = General.cpp  \
+	        GraphExtra.cpp  \
+		GraphPos.cpp \
+		List.cpp \
+		Point.cpp \
+		Graph.cpp \
+		GraphMain.cpp \
+		ListNode.cpp  \
+		TestGraph.cpp \
+		name_table.cpp
+
+raw_sources = $(graph_sources) 
+
+sources=$(addprefix src/,$(raw_sources)) 
+
+# objects are the same as the source files with .cpp replaced with .o
+
+objects = $(addprefix lib/,$(raw_sources:.cpp=.o))
+
+# headers are the same as the source files with .cpp replaced with .h
+
+headers = $(rawsources:.c=.h)
+
+# and we have a few more
+
+# headers += GenTypes.h
+
+# actually, we don't use $headers...
+
+# we will want to recompile if the Makefile (this file) changes...
+
+# others = Makefile
+
+
+AR = ar
+ARFLAGS = rvs
+CC          = gcc
+CLINKER     = gcc
+CXX = g++
+CXXFLAGS = -O
+CCFLAGS = -O
+LIB_DIRS = 
+LIBS = -lm #-lefence
+
+default: all
+
+# make all will run commands regardless of whether there is a file "all"
+all:	MCG
+
+MCG:	$(objects)
+	$(CXX) $(OPTFLAGS) -o bin/MCG $(objects) $(LIB_DIRS) $(LIBS)
+
+# make clean will run commands regardless of whether there is a file "clean"
+clean:
+	rm -rf lib/*.o
+	rm -f bin/*
+
+lib/%.o : src/%.c
+	$(CC) $(CCFLAGS) $(CFLAGS) -c $< $(OUTPUT_OPTION)
+
+lib/%.o : src/%.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_DIRS) $(TARGET_ARCH) -c $< -o $@
+
+
+
+
+
+
+
+

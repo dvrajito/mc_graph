@@ -1,0 +1,68 @@
+
+CSPATH = ./src
+BINPATH = ./bin
+LIBPATH = ./lib
+
+AR = ar
+ARFLAGS = rvs
+CC          = gcc
+CLINKER     = gcc
+CXX = g++
+CXXFLAGS = -O
+CCFLAGS = -O
+LIB_DIRS = -L/usr/lcvm/lib 
+LIBS = -lm #-lefence
+
+# the source files 
+
+sources_cc = main_mcg.cc \
+	     common.cc \
+
+sources_cpp = General.cpp \
+	      Point.cpp \
+		Graph.cpp \
+		GraphPos.cpp \
+		GraphExtra.cpp \
+		GraphEval.cpp \
+		name_table.cpp \
+		ListNode.cpp \
+		List.cpp
+
+sources1=$(addprefix src/,$(sources_cc)) 
+sources2=$(addprefix src/,$(sources_cpp)) 
+
+# objects are the same as the source files with .cc replaced with .o
+
+objects1 = $(addprefix lib/,$(sources_cc:.cc=.o))
+objects2 = $(addprefix lib/,$(sources_cpp:.cpp=.o))
+objects = $(objects1) $(objects2)
+
+default: all
+
+# make all will run commands regardless of whether there is a file "all"
+all:	bin/mcg
+
+bin/mcg:	$(objects) 
+	$(CXX) $(OPTFLAGS) -o bin/mcg $(objects) $(LIB_DIRS) $(LIBS)
+
+# make clean will run commands regardless of whether there is a file "clean"
+clean:
+	rm -rf lib/*.o
+	rm -f bin/mcg
+
+lib/%.o : src/%.c
+	$(CC) $(CCFLAGS) $(CFLAGS) -c $< $(OUTPUT_OPTION)
+
+lib/%.o : src/%.cc
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_DIRS) $(TARGET_ARCH) -c $< -o $@
+
+lib/%.o : src/%.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_DIRS) $(TARGET_ARCH) -c $< -o $@
+
+
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+a=
+0.000
+b=
+1.000
+pc=
+1.000
+pm=
+0.000
+La taille de l'individu=
+10
+La taille de la population =
+20
+Le nombre de generations =
+10
+Conserver l'histoire = 
+0
+La forme de reproduction =
+0 = simple, 1 = elitiste, 2 = monotone
+2
+La methode de croisement
+0 = 1-point, 1 = n-points, 2 = dissocie, 3 = uniforme
+1
+Nombre de points de croisement =
+2
+Le type d'evaluation : [0 = bool], [1 = real]
+1
+Le numero de la fonction d'evaluation =
+2
+Le numero de la transformation =
+0
+Le nombre de variables =
+3

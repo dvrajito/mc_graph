@@ -1,0 +1,94 @@
+
+CSPATH = ./src
+BINPATH = ./bin
+LIBPATH = ./lib
+
+# the source files 
+
+types_sources = CrossMethod.cc \
+		RunInfo.cc \
+		GenInfo.cc \
+		EvalInfo.cc \
+		Individual.cc \
+		Generation.cc \
+
+evaluation_sources = GenEval.cc	\
+	     	     PyCommunicate.cc
+
+operation_sources = GenOper.cc
+
+raw_sources = $(types_sources) $(evaluation_sources) $(operation_sources) 
+
+graph_sources = Point.cpp \
+		Graph.cpp \
+		GraphPos.cpp \
+		General.cpp \
+		GraphExtra.cpp \
+		GraphEval.cpp \
+		name_table.cpp \
+		ListNode.cpp \
+		List.cpp
+
+sources1=$(addprefix src/,$(raw_sources)) 
+sources2=$(addprefix src/,$(graph_sources)) 
+
+# objects are the same as the source files with .cc replaced with .o
+
+objects1 = $(addprefix lib/,$(raw_sources:.cc=.o))
+objects2 = $(addprefix lib/,$(graph_sources:.cpp=.o))
+objects = $(objects1) $(objects2)
+
+# headers are the same as the source files with .cc replaced with .h
+
+headers = $(rawsources:.c=.h)
+
+# and we have a few more
+
+headers += GenTypes.h
+
+# actually, we don't use $headers...
+
+# we will want to recompile if the Makefile (this file) changes...
+
+#others = Makefile
+
+
+AR = ar
+ARFLAGS = rvs
+CC          = gcc
+CLINKER     = gcc
+CXX = g++
+CXXFLAGS = -O
+CCFLAGS = -O
+LIB_DIRS = -L/usr/lcvm/lib 
+LIBS = -lm #-lefence
+
+default: all
+
+# make all will run commands regardless of whether there is a file "all"
+all:	gadg
+
+gadg:	$(objects) lib/main.o 
+	$(CXX) $(OPTFLAGS) -o bin/gadg lib/main.o -g $(objects) $(LIB_DIRS) $(LIBS)
+
+# make clean will run commands regardless of whether there is a file "clean"
+clean:
+	rm -rf lib/*.o
+	rm -f bin/gadg
+
+lib/%.o : src/%.c
+	$(CC) $(CCFLAGS) $(CFLAGS) -c $< $(OUTPUT_OPTION)
+
+lib/%.o : src/%.cc
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_DIRS) $(TARGET_ARCH) -c $< -o $@
+
+lib/%.o : src/%.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_DIRS) $(TARGET_ARCH) -c $< -o $@
+
+
+
+
+
+
+
+
