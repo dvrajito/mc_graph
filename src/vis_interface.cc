@@ -306,9 +306,9 @@ void draw_edges(Graph* gr, Point* points)
     glBegin(GL_LINES);
 
     for (i = 0; i < size; i++) {
-        ListNode* start = gr->edgeList[i].head;
+        ListNodeW* start = gr->edgeList[i].head;
         while (start != NULL) {
-            j = start->elem;
+            j = start->value;
             if (i < j) {
                 point_vert(points[i]);
                 point_vert(points[j]);

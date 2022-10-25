@@ -1,157 +1,238 @@
-/*
-  Project GAD
-  Author: Dana Vrajitoru
-  List class methods
-*/
+/*******************************************************************
 
-#include <stdio.h>
-#include <stdlib.h>
+   Project: MC-Graph, a C++ implementation of genetic algorithms
+            for graph drawing and visualization
+   License: Creative Commons, Attribution
+   Author:  Dana Vrajitoru
+   File:    ListW.cc
+   Updated: October 2022
+
+   ListW class definition, ListW container for a doubly-linked ListW.
+
+********************************************************************/
+
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <fstream>
 using namespace std;
-#include "ListNode.h"
-#include "List.h"
+#include "ListNodeW.h"
+#include "ListW.h"
 
 // Constructors
-List::List()
+ListW::ListW()
 {
-  Init();
+    Init();
 }
 
-List::List(List *data)
+// Copy constructor
+ListW::ListW(ListW &data)
 {
-  Init(data);
+    Init(data);
 }
 
+// Copy constructor
+ListW::ListW(ListW *data)
+{
+    Init(data);
+}
 
 // Init functions corresponding to each constructor
-void List::Init()
+void ListW::Init()
 {
-  head=NULL;
-  tail=NULL;
-  nodeNr = 0;
+    head = NULL;
+    tail = NULL;
+    size = 0;
 }
 
-void List::Init(List *data)
+// Deep copy 
+void ListW::Init(ListW &data)
 {
-  head = new ListNode(data->head);
-  tail = head;
-  if (tail != NULL)
-    while (tail->next != NULL)
-      tail = tail->next;
-  nodeNr = data->nodeNr;
+    head = new ListNodeW(data.head); // copies the whole list
+    tail = head;
+    if (tail != NULL)
+        while (tail->next != NULL)
+            tail = tail->next;
+    size = data.size;
 }
 
-  
+// Deep copy
+void ListW::Init(ListW *data)
+{
+    head = new ListNodeW(data->head); // copies the whole list
+    tail = head;
+    if (tail != NULL)
+        while (tail->next != NULL)
+            tail = tail->next;
+    size = data->size;
+}
+
 // Desctructor
-List::~List()
+ListW::~ListW()
 {
-  if (head != NULL)
-    delete head;
-  head=NULL;
-  tail = NULL;
-  nodeNr = 0;
+    Empty();
+}
+
+// Delete everything in the list
+void ListW::Empty()
+{
+    if (head != NULL)
+        DeleteList(head);
+    head = NULL;
+    tail = NULL;
+    size = 0;
+}
+
+// Returns the value of the first node
+int ListW::Front()
+{
+    if (head)
+        return head->value;
+    else {
+        cerr << "Accessing node of an empty list" << endl;
+        return 0;
+    }
+}
+
+// Returns the value of the last node
+int ListW::Back()
+{
+    if (tail)
+        return tail->value;
+    else {
+        cerr << "Accessing node of an empty list" << endl;
+        return 0;
+    }
+}
+
+// ListW manipulation
+void ListW::InsertFront(int val, float cost)
+{
+    ListNodeW* node;
+
+    node = new ListNodeW(val, cost);
+    if (head == NULL)
+        head = tail = node;
+    else {
+        node->next = head;
+        head->prev = node;
+        head = node;
+    }
+    size++;
+}
+
+void ListW::InsertBack(int val, float cost)
+{
+    ListNodeW* node;
+
+    node = new ListNodeW(val, cost);
+    if (tail == NULL)
+        head = tail = node;
+    else {
+        tail->next = node;
+        node->prev = tail;
+        tail = node;
+    }
+    size++;
+}
+
+// Remove the first node in the list
+bool ListW::RemoveFront()
+{
+    ListNodeW* node;
+
+    if (head != NULL) {
+        node = head;
+        head = head->next;
+        head->prev = NULL;
+        size--;
+        if (size == 0)
+            tail = NULL;
+        delete node;
+        return true;
+    }
+    else
+        return false;
+}
+
+// Remove the back node in the list
+bool ListW::RemoveBack()
+{
+    ListNodeW* node;
+
+    if (tail != NULL) {
+        node = tail;
+        tail = tail->prev;
+        tail->next = NULL;
+        size--;
+        if (size == 0)
+            head = NULL;
+        delete node;
+        return true;
+    }
+    else
+        return false;
+}
+
+// Checks if the list is empty
+bool ListW::IsEmpty()
+{
+    return (size == 0);
 }
 
 
-// List manipulation
-void List::AddHead(int val, float cost)
+// Converts the list to Boolean. It returns true if the list is not
+// empty, and false if it is.
+ListW::operator bool()
 {
-  ListNode *node;
-
-  node = new ListNode(val, cost);
-  if (head == NULL)
-    head=tail=node;
-  else {
-    head->AddHead(node);
-    head=node;
-  }
-  nodeNr++;
+    return (size == 0);
 }
 
-void List::AddTail(int val, float cost)
+// Checks if the list contains the value
+bool ListW::Contains(int val)
 {
-  ListNode *node;
-
-  node = new ListNode(val, cost);
-  if (tail == NULL)
-    head=tail=node;
-  else {
-    tail->AddTail(node);
-    tail=node;
-  }
-  nodeNr++;
+    return head->Search(val) != NULL;
 }
 
-int List::RemoveHead()
+// Searches for the value in the list and returns a pointer 
+// to the node containing it
+ListNodeW* ListW::Search(int val)
 {
-  ListNode *node;
-  int val;
-
-  if (head != NULL) {
-    node = head;
-    head=head->RemoveHead();
-    val = node->elem;
-    if (nodeNr == 1)
-      tail = NULL;
-    delete node;
-    nodeNr--;
-    return val;
-  }
-  else
-    return 0;
+    return head->Search(val);
 }
 
-int List::RemoveTail()
+// Output to the console
+void ListW::Print()
 {
-  ListNode *node;
-  int val;
-
-  if (tail != NULL) {
-    node = tail;
-    tail=tail->RemoveTail();
-    val = node->elem;
-    if (nodeNr == 1)
-      head = NULL;
-    delete node;
-    nodeNr--;
-    return val;
-  }
-  else
-    return 0;
+    cout << "The ListW has " << size << "nodes:" << endl;
+    if (head != NULL)
+        head->Print();
 }
 
-// Some useful methods
-int List::IsEmpty()
+// Output to a file
+void ListW::FPrint(FILE* aFile)
 {
-  return (nodeNr == 0);
+    fprintf(aFile, "The ListW has %d nodes:\n", size);
+    if (head != NULL)
+        head->FPrint(aFile);
 }
 
-int List::Find(int val)
+// Output to a file
+void ListW::FPrint(ofstream &aFile)
 {
-  return FindNode(val) != NULL;
+    aFile << "The ListW has " << size << " nodes :" << endl;
+    if (head != NULL)
+        head->FPrint(aFile);
 }
 
-ListNode *List::FindNode(int val)
+// cout output operator
+ostream& operator<<(ostream& out, ListW& data)
 {
-  ListNode *node=head;
-  while ((node != NULL) && (node->elem != val))
-	node = node->next;
-  return node;
+    ListNodeW *node = data.head;
+    while (node) {
+        out << *node;
+    }
+    out << endl;
+    return out;
 }
-
-// Output
-void List::Print()
-{
-  cout << "The list has " << nodeNr << "nodes:" << endl;
-  if (head != NULL)
-    head->Print();
-}
-
-void List::FPrint(FILE *aFile)
-{
-  fprintf(aFile, "The list has %d nodes:\n", nodeNr);
-  if (head != NULL)
-    head->FPrint(aFile);
-}
-

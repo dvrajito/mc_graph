@@ -4,44 +4,44 @@
 			for graph drawing and visualization
    License: Creative Commons, Attribution
    Author:  Dana Vrajitoru
-   File:    List.h
+   File:    ListW.h
    Updated: October 2022
 
-   List class definition, list container for a cdoubly-linked list.
+   List class definition, list container for a doubly-linked list.
 
 ********************************************************************/
 
-#ifndef List_h
-#define List_h
+#ifndef List_Weight_h
+#define List_Weight_h
 
-#include "ListNode.h"
+#include "ListNodeW.h"
 
-class List {
+class ListW {
 public:
-    ListNode *head;
-    ListNode *tail;
+    ListNodeW *head;
+    ListNodeW *tail;
     int size;
 
     // Constructors
-    List();
+    ListW();
 
     // Copy constructor
-    List(List *data);
+    ListW(ListW *data);
 
     // Copy constructor
-    List(List &data);
+    ListW(ListW &data);
 
     // Init functions corresponding to each constructor
     void Init();
 
     // Copy the list data
-    void Init(List *data);
+    void Init(ListW *data);
 
     // Copy the list data
-    void Init(List &data);
+    void Init(ListW &data);
 
     // Desctructor
-    ~List();
+    ~ListW();
 
     // Delete everything in the list
     void Empty();
@@ -50,22 +50,38 @@ public:
     // empty, and false if it is.
     operator bool();
 
+    // Returns the value of the first node
+    int Front();
+
+    // Returns the value of the last node
+    int Back();
+
+    // Checks if the list is empty
+    bool IsEmpty();
+
     // List manipulation
 
     // Add a value to the front of the list
-    void AddHead(int val);
+    void InsertFront(int val, float cost = 0);
 
     // Add a value to the front of the list
-    void AddTail(int val);
+    void InsertBack(int val, float cost = 0);
 
     // Remove the front of the list and return the value it contained
-    bool RemoveHead();
+    bool RemoveFront();
 
     // Remove the back of the list and return false if the list is empty.
-    bool RemoveTail();
+    bool RemoveBack();
 
     // concatenate the list data to the target object
-    void Concatenate(List &data);
+    void Concatenate(ListW &data);
+
+    // Checks if the list contains the value
+    bool Contains(int val);
+    
+    // Searches for the value in the list and returns a pointer 
+    // to the node containing it
+    ListNodeW* Search(int val);
 
     // Output to cout
     void Print();
@@ -73,8 +89,11 @@ public:
     // Output to a file
     void FPrint(FILE *aFile);
 
+    // Output to a file
+    void FPrint(ofstream& aFile);
+
     // cout output operator
-    friend ostream &operator<<(ostream &out, List &data);
+    friend ostream &operator<<(ostream &out, ListW &data);
 };
 
 #endif

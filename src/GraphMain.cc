@@ -17,12 +17,13 @@
 #include <iostream>
 using namespace std;
 
-int main()
+// The main for graph testing
+int mainGraph()
 {
     Graph* dg5 = new Graph;
     Point* points;
     char filename[50];
-    int nriter, nriter2;
+    int nriter, nriter2, stop = 500;
     float eps;
     cout << "Enter the name of file containing the graph" << endl;
     cin >> filename;
@@ -35,7 +36,7 @@ int main()
         cin >> nriter2;
         cout << "Epsilon:" << endl;
         cin >> eps;
-        points = CreatePoints(dg5, nriter, nriter2, eps);
+        CreatePoints(points, dg5, nriter, nriter2, eps, stop);
         //points = MCCreatePoints(dg5, nriter, 1);
         for (int i = 1; i < dg5->vertexNr; i++)
             points[i].Print();

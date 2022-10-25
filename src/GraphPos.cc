@@ -159,7 +159,7 @@ void MCCreatePoints(Point*& points, Graph* aGraph, int nrIter, float epsilon,
         points = RandomPoints(aGraph->vertexNr);
     for (i = 0; i < nrIter; i++) {
         for (j = 0; j < aGraph->edgeNr; j++) {
-            aGraph->RandomArc(first, second, goalDist);
+            aGraph->RandomEdge(first, second, goalDist);
             AdaptPoint(points[first], points[second], goalDist, epsilon);
         }
         if (ConvergeCheck)
@@ -195,7 +195,7 @@ void CreatePoints(Point*& points, Graph* aGraph,
     //StopPoint = nrIter;
 
     static short* visited = NULL;
-    static List toBeVisited;
+    static ListW toBeVisited;
 
     if (points == NULL) {
         points = RandomPoints(aGraph->vertexNr);
@@ -235,9 +235,9 @@ void CreateNewPoint(Point* points, short* visited, Graph* aGraph,
     int j;
     points[theNode].Init(1, 10.0);
     for (int i = 0; i < nrIter; i++) {
-        ListNode* arcCrnt = aGraph->edgeList[theNode].head;
+        ListNodeW* arcCrnt = aGraph->edgeList[theNode].head;
         while (arcCrnt != NULL) {
-            j = arcCrnt->elem;
+            j = arcCrnt->value;
             givenDist = arcCrnt->weight;
             if (visited[j])
                 AdaptPoint(points[theNode], points[j],
@@ -255,9 +255,9 @@ void AdjustPoint(Point* points, short* visited, Graph* aGraph,
     float givenDist;
     int j;
     for (int i = 0; i < nrIter; i++) {
-        ListNode* arcCrnt = aGraph->edgeList[theNode].head;
+        ListNodeW* arcCrnt = aGraph->edgeList[theNode].head;
         while (arcCrnt != NULL) {
-            j = arcCrnt->elem;
+            j = arcCrnt->value;
             givenDist = arcCrnt->weight;
             if (visited[j])
                 AdaptPoint(points[theNode], points[j], givenDist, epsilon);

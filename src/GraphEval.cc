@@ -77,8 +77,8 @@ void VolumeSwag(Point* Points, int vertexNr, Point& StdDev)
 //to use the z-axis
 double AngleSwag(Point* Points, Graph* aGraph, int StartPoint, int Projection)
 {
-    List* EdgeList = aGraph->edgeList;
-    ListNode* AdjacentNode;
+    ListW* EdgeList = aGraph->edgeList;
+    ListNodeW* AdjacentNode;
     int Neighbor, AngleCount = 0, i;
     double Slope, Angle, TotalAngle, Average, X1, X2, Y1, Y2, Sum, Diff;
     double* AngleList = new double[aGraph->vertexNr];
@@ -89,7 +89,7 @@ double AngleSwag(Point* Points, Graph* aGraph, int StartPoint, int Projection)
     for (AdjacentNode = EdgeList[StartPoint].head; AdjacentNode != NULL;
         AdjacentNode = AdjacentNode->next)
     {
-        Neighbor = AdjacentNode->elem;
+        Neighbor = AdjacentNode->value;
         if (Projection == 0)
         {
             X1 = Points[StartPoint].x;
@@ -254,8 +254,8 @@ double PointDistance(Point PointA, Point PointB)
 
 double GraphSurfaceArea(Point* Points, Graph* aGraph)
 {
-    List* EdgeList = aGraph->edgeList;
-    ListNode* AdjacentNode;
+    ListW* EdgeList = aGraph->edgeList;
+    ListNodeW* AdjacentNode;
     Point PointA, PointB, PointC;
     int Neighbor, AngleCount = 0, h, i;
     int PointCount = aGraph->vertexNr;
@@ -272,7 +272,7 @@ double GraphSurfaceArea(Point* Points, Graph* aGraph)
             AdjacentNode = AdjacentNode->next)
         {
 
-            Neighbor = AdjacentNode->elem;
+            Neighbor = AdjacentNode->value;
             NeighborList[AngleCount] = Neighbor;
 
             X1 = Points[h].x;

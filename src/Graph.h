@@ -16,12 +16,12 @@
 #ifndef Graph_h
 #define Graph_h
 
-#include "List.h"
+#include "ListW.h"
 #include "Point.h"
 
 class Graph {
 public:
-    List* edgeList;
+    ListW* edgeList;
 
     int vertexNr, edgeNr;
 
@@ -63,7 +63,7 @@ public:
     // it returns -1.
     float Weight(int i, int j);
     // Verifies if the edge (i, j) exists.
-    int IsEdge(int i, int j);
+    bool IsEdge(int i, int j);
 
     // Scan the graph in breadth-first order. The nodes array contains a
     // mark for the vertices that have already been visited. If the list
@@ -74,17 +74,18 @@ public:
     // been popped. A complete breadth-first traversal of the graph is
     // chieved by calling this function repeatedly until all the
     // vertices have been marked.
-    int ScanGraph(short*& nodes, List& scanList);
+    int ScanGraph(short*& nodes, ListW& scanList);
+
     // Start a traversal of the graph in breadth-first order with a
     // random origin.
-    int RandScanGraph(short*& nodes, List& scanList, int first = 0);
+    int RandScanGraph(short*& nodes, ListW& scanList, int first = 0);
 
     // Evaluate the total error in the layout given by the array of
     // points.
     float EvalDistance(Point* pts);
 
     // Select one edge by random.
-    void RandomArc(int& i, int& j, float& wght);
+    void RandomEdge(int& i, int& j, float& wght);
 
     // Find the maximal weight of all the edges in the graph.
     float MaxWeight();

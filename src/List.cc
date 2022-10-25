@@ -148,7 +148,7 @@ bool List::RemoveTail()
 
     if (tail != NULL) {
         node = tail;
-        tail = tail->pred;
+        tail = tail->prev;
         delete node;
         size--;
         if (size == 0)

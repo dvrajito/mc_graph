@@ -33,4 +33,7 @@ int mainWiener(int argc, char** argv);
 // The main for the visualization of the results.
 int mainVisual(int argc, char** argv);
 
+// The main for graph testing
+int mainGraph();
+
 #endif

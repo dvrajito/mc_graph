@@ -19,8 +19,8 @@ using namespace std;
 
 class ListNode {
 public:
-    int elem;
-    ListNode *next, *pred;
+    int value;
+    ListNode *next, *prev;
 
     // Constructors
     ListNode(int val = 0);

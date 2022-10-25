@@ -39,15 +39,15 @@ ListNode::~ListNode()
 void ListNode::Init(int val)
 {
     next = NULL;
-    pred = NULL;
-    elem = val;
+    prev = NULL;
+    value = val;
 }
 
 // Initialize as a deep copy of another node
 void ListNode::Init(ListNode *data)
 {
-    elem = data->elem;
-    pred = data->pred;
+    value = data->value;
+    prev = data->prev;
     if (data->next != NULL)
         next = new ListNode(data->next); // copy the rest of the list
     else
@@ -59,13 +59,13 @@ void ListNode::Init(ListNode *data)
 // Add the parameter node as head of the list that *this belongs to.
 void ListNode::AddHead(ListNode *node)
 {
-    if (pred == NULL) {
-        pred = node;
+    if (prev == NULL) {
+        prev = node;
         if (node != NULL)
             node->next = this;
     }
     else
-        pred->AddHead(node);
+        prev->AddHead(node);
 }
 
 // Add the parameter node as tail of the list that *this belongs to.
@@ -74,7 +74,7 @@ void ListNode::AddTail(ListNode *node)
     if (next == NULL) {
         next = node;
         if (node != NULL)
-            node->pred = this;
+            node->prev = this;
     }
     else
         next->AddTail(node);
@@ -85,12 +85,12 @@ ListNode *ListNode::RemoveHead()
 {
     ListNode *node;
 
-    if (pred != NULL)
-        node = pred->RemoveHead();
+    if (prev != NULL)
+        node = prev->RemoveHead();
     else {
         node = next;
         if (next != NULL) {
-            next->pred = NULL;
+            next->prev = NULL;
             next = NULL;
         }
     }
@@ -105,10 +105,10 @@ ListNode *ListNode::RemoveTail()
     if (next != NULL)
         node = next->RemoveTail();
     else {
-        node = pred;
-        if (pred != NULL) {
-            pred->next = NULL;
-            pred = NULL;
+        node = prev;
+        if (prev != NULL) {
+            prev->next = NULL;
+            prev = NULL;
         }
     }
     return node;
@@ -141,14 +141,14 @@ void ListNode::Concatenate(ListNode *link)
     if (p) { // add the node here if the current list is not empty
         p->next = link;
         if (link)
-            link->pred = p;
+            link->prev = p;
     }
 } // ListNode::concatenate()
 
 // Output the whole list to cout
 void ListNode::Print()
 {
-    cout << elem << ' ';
+    cout << value << ' ';
     if (next == NULL)
         cout << endl;
     else
@@ -158,7 +158,7 @@ void ListNode::Print()
 // Output the whole list to a file
 void ListNode::FPrint(FILE *aFile)
 {
-    fprintf(aFile, "%d ", elem);
+    fprintf(aFile, "%d ", value);
     if (next == NULL)
         fprintf(aFile, "\n");
     else
@@ -168,7 +168,7 @@ void ListNode::FPrint(FILE *aFile)
 // cout output operator
 ostream &operator<<(ostream &out, ListNode &data)
 {
-    out << data.elem << ' ';
+    out << data.value << ' ';
     return out;
 }
 

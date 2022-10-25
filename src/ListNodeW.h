@@ -4,59 +4,65 @@
 			for graph drawing and visualization
    License: Creative Commons, Attribution
    Author:  Dana Vrajitoru
-   File:    ListNode.h
+   File:    ListNodeW.h
    Updated: October 2022
 
-   ListNode class definition, a doubly-linked list node
+   ListNodeW class definition, a doubly-linked list node
 
   ************************************************************************/
 
-#ifndef ListNode_h
-#define ListNode_h
+#ifndef ListNodeW_Weight_h
+#define ListNodeW_Weight_h
 
 #include <ostream>
 using namespace std;
 
-class ListNode {
+class ListNodeW {
 public:
-    int elem;
-    ListNode *next, *pred;
+    int value;
+    float weight;
+    ListNodeW *next, *prev;
 
     // Constructors
-    ListNode(int val = 0);
+    ListNodeW(int val = 0);
+    ListNodeW(int val, float w);
 
     // Deep copy constructor
-    ListNode(ListNode *data);
+    ListNodeW(ListNodeW *data);
 
     // Destructor
-    ~ListNode();
+    ~ListNodeW();
 
     // Init corresponding to each constructor
     void Init(int val = 0);
+    void Init(int val, float w);
 
     // Initialize as a deep copy of another node
-    void Init(ListNode *data);
+    void Init(ListNodeW *data);
 
     // List operations
 
     // Add the parameter node as head of the list that *this belongs to.
-    void AddHead(ListNode *node);
+    void AddHead(ListNodeW *node);
 
     // Add the parameter node as tail of the list that *this belongs to.
-    void AddTail(ListNode *node);
+    void AddTail(ListNodeW *node);
 
     // Remove the head of the list that *this belongs to and return it.
-    ListNode *RemoveHead();
+    ListNodeW *RemoveHead();
 
     // Remove the tail of the list that *this belongs to and return it.
-    ListNode *RemoveTail();
+    ListNodeW *RemoveTail();
 
     // returns a pointer to the last node in the list that *this is in.
-    ListNode *LastNode();
+    ListNodeW *LastNode();
 
     // Concatenate a whole list at the end of the list starting with the
     // target object.
-    void Concatenate(ListNode *link);
+    void Concatenate(ListNodeW *link);
+
+    // Find the node containing a value if it's there
+    ListNodeW* Search(int val);
 
     // Output the whole list to cout
     void Print();
@@ -64,8 +70,14 @@ public:
     // Output the whole list to cout
     void FPrint(FILE *aFile);
 
+    // Output to a file
+    void FPrint(ofstream& aFile);
+
+    // Deletes a list starting from the node
+    friend void DeleteList(ListNodeW*& head);
+
     // cout output operator
-    friend ostream &operator<<(ostream &out, ListNode &data);
+    friend ostream &operator<<(ostream &out, ListNodeW &data);
 };
 
 #endif
