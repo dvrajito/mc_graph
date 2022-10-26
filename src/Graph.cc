@@ -45,8 +45,8 @@ void Graph::Init(int verticesNr)
 {
     vertexNr = verticesNr;
     edgeNr = 0;
-    weighted = 0;
-    directed = 0;
+    weighted = false;
+    directed = false;
     if (vertexNr)
         edgeList = new ListW[vertexNr];
     else
@@ -70,8 +70,8 @@ bool Graph::Read(const char* filename)
             return false;
         }
         Init(vertexNr);
-        directed = 0;
-        weighted = 1;
+        directed = false;
+        weighted = true;
         for (i = 0; i < edges; i++) {
             fin >> input;
             fin >> wght;
@@ -80,7 +80,7 @@ bool Graph::Read(const char* filename)
                 cout << "Error reading the graph file" << endl;
                 return false;
             }
-            ArcConvert(input, j, k);
+            EdgeConvert(input, j, k);
             AddEgde(j, k, wght);
         }
         fin.close();
@@ -100,8 +100,8 @@ Point* Graph::ReadPoints(const char* filename)
     float wght;
 
     ifstream fin(filename);
-    directed = 0;
-    weighted = 1;
+    directed = false;
+    weighted = true;
     if (fin) {
         fin >> vertexNr >> input
             >> edges >> input;
@@ -109,7 +109,7 @@ Point* Graph::ReadPoints(const char* filename)
         for (i = 0; i < edges; i++) {
             fin >> input;
             fin >> wght;
-            ArcConvert(input, j, k);
+            EdgeConvert(input, j, k);
             AddEgde(j, k, wght);
         }
         Point* points = new Point[vertexNr];
@@ -135,28 +135,28 @@ void Graph::AddEgde(int start, int end, float wght)
 // letter of the first vertex, comma, the letter of the second vertex,
 // another comma, then eventually the weight. Could be rewritten using
 // C++ functionality.
-int Graph::ProcessEdgeLine(int& j, int& k, float& wght, char* line)
+bool Graph::ProcessEdgeLine(int& j, int& k, float& wght, char* line)
 {
     if (strlen(line) >= 4) {
-        j = Sequence_number(line);
+        j = SequenceNumber(line);
 
         // Suppose in the file the name is 1 char, followed by ',' 
         // and by 1 space
-        k = Sequence_number(line + 3);
+        k = SequenceNumber(line + 3);
 
         if (strlen(line) > 6) {
             wght = atof(line + 6);
-            weighted = 1;
+            weighted = true;
         }
-        return 1;
+        return true;
     }
     else
-        return 0;
+        return false;
 }
 
 // Reading a graph from a file in the format used with the C251 and
 // C243 classes.
-int Graph::ReadC251(const char* filename)
+bool Graph::ReadC251(const char* filename)
 {
     char input[30];
     int i, j, k;
@@ -169,10 +169,10 @@ int Graph::ReadC251(const char* filename)
         if (input[0] == 'U' || input[0] == 'u')
             directed = 0;
         else if (input[0] == 'D' || input[0] == 'd')
-            directed = 1;
+            directed = true;
         else {
             fin.close();
-            return 0;
+            return false;
         }
 
         fin >> vertexNr;
@@ -188,7 +188,7 @@ int Graph::ReadC251(const char* filename)
         }
         fin.close();
     }
-    return 1;
+    return true;
 }
 
 // Simple printout of the graph.
@@ -198,13 +198,13 @@ void Graph::Print()
         << edgeNr << " edges" << endl;
     for (int i = 0; i < vertexNr; i++) {
         cout << i << "-->(";
-        ListNodeW* edgei = edgeList[i].head;
-        while (edgei != NULL) {
+        ListNodeW* edge = edgeList[i].head;
+        while (edge != NULL) {
             if (weighted)
-                cout << "(" << edgei->value << ' ' << edgei->value << ")-->";
+                cout << "(" << edge->value << ' ' << edge->value << ")-->";
             else
-                cout << edgei->value << "-->";
-            edgei = edgei->next;
+                cout << edge->value << "-->";
+            edge = edge->next;
         }
         cout << "/)" << endl;
     }
@@ -214,18 +214,18 @@ void Graph::Print()
 // Printing the graph in breadth-first order.
 void Graph::BreadthFirstPrint(int v)
 {
-    int* marked = new int[vertexNr];
+    bool* marked = new bool[vertexNr];
     int i, x, y;
     ListW Queue;
-    ListNodeW* edge;
+    ListNodeW* neighbor;
 
     cout << "This is the order in which the vertices are seen by the" << endl
         << "breadth first search algorithm starting from ";
-    Write_name(v);
+    WriteName(v);
     cout << endl;
 
     for (i = 0; i < vertexNr; i++)
-        marked[i] = 0;
+        marked[i] = false;
 
     marked[v] = 1;
     PreliminaryProcess(v);
@@ -233,15 +233,15 @@ void Graph::BreadthFirstPrint(int v)
     while (!Queue.IsEmpty()) {
         x = Queue.Front();
         Queue.RemoveFront();
-        edge = edgeList[x].head;
-        while (edge != NULL) {
-            y = edge->value;
+        neighbor = edgeList[x].head;
+        while (neighbor != NULL) {
+            y = neighbor->value;
             if (!marked[y]) {
-                marked[y] = 1;
+                marked[y] = true;
                 PreliminaryProcess(y);
                 Queue.InsertBack(y);
             }
-            edge = edge->next;
+            neighbor = neighbor->next;
         }
     }
     cout << endl;
@@ -419,7 +419,7 @@ float Graph::TotalWeight()
 
 // Compute the resulting tension vectors in every vertex of the graph
 // from the layout given by the array of points.
-void Graph::Compute_vectors(Point*& vectors, Point* points)
+void Graph::ComputeVectors(Point*& vectors, Point* points)
 {
     if (vectors == NULL)
         vectors = new Point[vertexNr];
@@ -435,7 +435,7 @@ void Graph::ComputeRepulsionVectors(Point*& vectors, Point* points)
     if (vectors == NULL)
         vectors = new Point[vertexNr];
 
-    int i, j, k, NeighborCount, Node, node;
+    int i, j, k, NeighborCount, Node;
     float TotalWeight, AverageWeight, wght, dist;
     int* AdjacentList = new int[vertexNr];
     ListNodeW* AdjacentNode = NULL;
@@ -535,7 +535,7 @@ void Graph::Dijkstra(int source, float* dist)
         if (!finalized[v]) {
             finalized[v] = true;
             for (neighbor = edgeList[v].head; neighbor != NULL;
-                neighbor = neighbor->next) {
+                 neighbor = neighbor->next) {
                 y = neighbor->value;
                 wght = neighbor->weight;
                 if (dist[y] == -1 || dist[y] > dist[v] + wght) {
@@ -556,7 +556,6 @@ void Graph::Dijkstra(int source, float* dist)
 // the result in the second parameter.
 void Graph::IntDist(int source, int* dist)
 {
-
     bool* marked = new bool[vertexNr];
     int* pred = new int[vertexNr];
     int i, x, y;

@@ -48,7 +48,7 @@ float VectorCreatePoints(Point*& points, Graph* aGraph,
     Point* vectors = NULL;
 
     for (int i = 0; i < nrIter; i++) {
-        aGraph->Compute_vectors(vectors, points);
+        aGraph->ComputeVectors(vectors, points);
         //cout << "Points: ";
         //Print(points, aGraph->vertexNr);
         //cout << "Vectors: ";

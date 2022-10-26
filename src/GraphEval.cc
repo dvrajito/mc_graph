@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include "GraphEval.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include "List.h"
 #include "Point.h"
 #include <cmath>
@@ -87,7 +87,7 @@ double AngleSwag(Point* Points, Graph* aGraph, int StartPoint, int Projection)
     TotalAngle = 0;
 
     for (AdjacentNode = EdgeList[StartPoint].head; AdjacentNode != NULL;
-        AdjacentNode = AdjacentNode->next)
+         AdjacentNode = AdjacentNode->next)
     {
         Neighbor = AdjacentNode->value;
         if (Projection == 0)

@@ -25,7 +25,7 @@ public:
 
     int vertexNr, edgeNr;
 
-    int directed, weighted;
+    bool directed, weighted;
 
     // Constructor: does nothing but call the init function.
     Graph(int verticesNr = 0);
@@ -38,17 +38,20 @@ public:
 
     // Add an edge to the graph with given weight.
     void AddEgde(int start, int end, float wght = 1);
+
     // Get the vertex numbers and the weight from a line containing the
     // letter of the first vertex, comma, the letter of the second
     // vertex, another comma, then eventually the weight. Could be
     // rewritten using C++ functionality.
-    int ProcessEdgeLine(int& j, int& k, float& wght, char* line);
+    bool ProcessEdgeLine(int& j, int& k, float& wght, char* line);
 
     // Reading a graph from a file in the format used with the C251 and
     // C243 classes.
-    int ReadC251(const char* filename);
+    bool ReadC251(const char* filename);
+
     // Read the graph from a graph file.
     bool Read(const char* filename);
+
     // Read a graph layout from a file. For each vertex, input a 3D
     // point.
     Point* ReadPoints(const char* filename);
@@ -62,6 +65,7 @@ public:
     // Returns the weight of the edge (i, j). If the edge doesn't exist
     // it returns -1.
     float Weight(int i, int j);
+
     // Verifies if the edge (i, j) exists.
     bool IsEdge(int i, int j);
 
@@ -89,14 +93,16 @@ public:
 
     // Find the maximal weight of all the edges in the graph.
     float MaxWeight();
+
     // Find the minimal weight of all the edges in the graph.
     float MinWeight();
+
     // Find the total weight of all the edges in the graph.
     float TotalWeight();
 
     // Compute the resulting tension vectors in every vertex of the
     // graph from the layout given by the array of points.
-    void Compute_vectors(Point*& vectors, Point* points);
+    void ComputeVectors(Point*& vectors, Point* points);
 
     // Compute the resulting tension and repulsion vectors in every 
     // vertex of the graph from the layout given by the array of points.
@@ -120,6 +126,7 @@ public:
     // Computes the Wiener index of the graph based on the weights of
     // the edges.
     float Wiener();
+
     // Computes the Wiener indexes based on the path length as number of
     // edges. It ignores the weights.
     int IntWiener();

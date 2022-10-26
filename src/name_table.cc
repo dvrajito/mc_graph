@@ -12,7 +12,7 @@ using namespace std;
 #include <ctype.h>
 
 // Returns the sequence number corresponding to the name
-int Sequence_number(char *name)
+int SequenceNumber(char *name)
 {
   if (name != NULL)
     return toupper(name[0]) - 'A';
@@ -21,7 +21,7 @@ int Sequence_number(char *name)
 }
 
 // Returns the name corresponding to the sequence number
-char *Vertex_name(int vertex_nr)
+char *VertexName(int vertex_nr)
 {
   if (vertex_nr < 0)
     return NULL;
@@ -34,7 +34,7 @@ char *Vertex_name(int vertex_nr)
 }
 
 // Writes the name without allocating memory space for it
-void Write_name(int sequence_nr)
+void WriteName(int sequence_nr)
 {
   cout << (char) ('A' + sequence_nr);
 }

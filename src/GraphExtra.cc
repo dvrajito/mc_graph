@@ -1,10 +1,10 @@
 /********************************************************************
 
    Project: MC-Graph, a C++ implementation of genetic algorithms
-			for graph drawing and visualization
+            for graph drawing and visualization
    License: Creative Commons, Attribution
-   Author: Dana Vrajitoru
-   File:    GraphEval.cc
+   Author:  Dana Vrajitoru
+   File:    GraphExtra.cc
    Updated: October 2022
 
    Helper functions for the Graph class.
@@ -19,22 +19,22 @@
 using namespace std;
 
 // Convert a couple of names like AB or AaBb into vertex numbers.
-void ArcConvert(const char *input, int &j, int &k)
+void EdgeConvert(const char* input, int& j, int& k)
 {
-  if (strlen(input) == 2) {
-	j = Convert1Char(input[0]);
-	k = Convert1Char(input[1]);
-  }
-  else {
-	j = Convert2Char(input[0], input[1]);
-	k = Convert2Char(input[2], input[3]);
-  }
+    if (strlen(input) == 2) {
+        j = Convert1Char(input[0]);
+        k = Convert1Char(input[1]);
+    }
+    else {
+        j = Convert2Char(input[0], input[1]);
+        k = Convert2Char(input[2], input[3]);
+    }
 }
 
 // Converts a name given as one uppercase letter into a vertex number.
 int Convert1Char(char c)
 {
-  return (int)(c - 'A');
+    return (int)(c - 'A');
 }
 
 // Converts a name given as 2 characters into a vertex number. The
@@ -43,12 +43,12 @@ int Convert1Char(char c)
 // vertices.
 int Convert2Char(char c1, char c2)
 {
-  return (int)((c1-'A')*26 + c2 - 'a');
+    return (int)((c1 - 'A') * 26 + c2 - 'a');
 }
 
 // Some helping function for printing the graph.
 void PreliminaryProcess(int v)
 {
-  Write_name(v);
-  cout << ' ';
+    WriteName(v);
+    cout << ' ';
 }

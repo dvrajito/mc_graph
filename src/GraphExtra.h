@@ -3,8 +3,8 @@
    Project: MC-Graph, a C++ implementation of genetic algorithms
 			for graph drawing and visualization
    License: Creative Commons, Attribution
-   Author: Dana Vrajitoru
-   File:    GraphEval.h
+   Author:  Dana Vrajitoru
+   File:    GraphExtra.h
    Updated: October 2022
 
    Helper functions for the Graph class.
@@ -15,7 +15,7 @@
 #define GRAPH_EXTRA_H
 
 // Convert a couple of names like AB or AaBb into vertex numbers.
-void ArcConvert(const char *input, int &j, int &k);
+void EdgeConvert(const char *input, int &j, int &k);
 
 // Converts a name given as one uppercase letter into a vertex number.
 int Convert1Char(char c);
