@@ -5,7 +5,7 @@
    License: Creative Commons, Attribution
    Author:  Dana Vrajitoru
    File:    common.h
-   Update:  October 2022
+   Update:  July 2024
 
    Helper function dealing with the output file.
 
